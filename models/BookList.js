@@ -23,9 +23,9 @@ var BookListSchema = new Schema({
   // `save` is an object that stores a Save id
   // The ref property links the ObjectId to the Save model
   // This allows us to populate the BookList with an associated Save
-  savedBook: {
+  saved: {
     type: Schema.Types.ObjectId,
-    ref: "SavedBook"
+    ref: "Saves"
   }
 });
 

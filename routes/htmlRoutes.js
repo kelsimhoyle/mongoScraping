@@ -22,4 +22,15 @@ module.exports = function(app) {
         })
     })
 
+    app.get("/savedbooks", function(req, res) {
+        db.Saves.find({})
+        .populate("book")
+        .then(function(dbSaves) {
+            res.render("saves", {saved: dbSaves});
+        })
+        .catch(function(req, res) {
+            res.json(err);
+        })
+    })
+
 }

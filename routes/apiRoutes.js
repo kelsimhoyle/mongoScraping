@@ -5,7 +5,7 @@ var cheerio = require("cheerio");
 var db = require("../models");
 
 module.exports = function (app) {
-
+    // Scraping the Popular Lists
     app.get("/scrape/list", (req, res) => {
         axios.get("https://www.goodreads.com/list/popular_lists").then(function (response) {
             var $ = cheerio.load(response.data);
@@ -14,22 +14,14 @@ module.exports = function (app) {
                 var result = {};
 
                 result.listName = $(element).text();
-                // splitting on the "/" and slicing the first "/", joining with a "-" so it will work in the req.params
                 result.listLink = $(element).attr("href");
 
                 db.List.create(result)
                     .then(function (dbList) {
-                    
+                        // Getting the books for each of the lists
                         axios.get(`https://www.goodreads.com${dbList.listLink}`).then(function (response) {
-
-                            // Load the HTML into cheerio and save it to a variable
-                            // '$' becomes a shorthand for cheerio's selector commands, much like jQuery's '$'
                             var $ = cheerio.load(response.data);
-                            // With cheerio, find each p-tag with the "title" class
-                            // (i: iterator. element: the current element)
                             $("a.bookTitle").each(function (i, element) {
-                
-                                // Save the text of the element in a "title" variable
                                 var title = $(element).children().text();
                                 var bookLink = $(element).attr("href");
                                 var author = $(element).siblings("span").attr("itemprop", "author").children("div.authorName__container").children("a.authorName").text();
@@ -48,15 +40,12 @@ module.exports = function (app) {
                                         console.log(dbList)
                                     })
                                     .catch(function (err) {
-                                        // If an error occurred, log it
                                         console.log(err);
                                     });
-                
                             });
                         });
                     })
                     .catch(function (err) {
-                        // If an error occurred, log it
                         console.log(err);
                     });
             });
@@ -68,6 +57,47 @@ module.exports = function (app) {
         db.List.find({})
         .then(function(dbList) {
             res.json(dbList);
+        })
+    });
+
+    // Get a specific book
+    app.get("/api/book/:id", function(req, res) {
+        db.BookList.findOne({_id: req.params.id})
+        .populate("savedBook")
+        .then(function(dbBook) {
+            res.json(dbBook)
+        })
+        .catch(function(err) {
+            res.json(err);
+        })
+    })
+    // Saving the book with notes
+    app.post("/api/savedbook/:id", function(req, res) {
+        console.log(req.body);
+        db.Saves.create(req.body)
+        .then(function(dbSavedBook) {
+          console.log(dbSavedBook)
+          return db.BookList.findOneAndUpdate({_id: req.params.id}, {savedBook: dbSavedBook._id}, {new: true})
+          .then(function(dbBookList) {
+            res.json(dbBookList);
+          })
+          .catch(function(err) {
+            res.json(err)
+          })
+        })
+        .catch(function(err) {
+          res.json(err);
+        })
+      });
+
+    app.get("/api/savedbook", function(req, res) {
+        db.Saves.find({})
+        .populate("book")
+        .then(function(dbSaves) {
+            res.json(dbSaves);
+        })
+        .catch(function(req, res) {
+            res.json(err);
         })
     })
 }
