@@ -1,3 +1,73 @@
+h1, h3 {
+    color: #612940;
+}
+
+h3 {
+    padding: 2%;
+}
+
+h3 a {
+    color: #612940;
+}
+
+a {
+    color: #0F110C;
+}
+a:hover {
+    color: #9D6381;
+}
+
 #book-title {
     font-style: italic;
+}
+
+.jumbotron-home{
+	background-image: url('../images/books.jpg');
+    height: 100vh;
+} 
+
+.jumbotron-lists {
+    background-image: url("../images/blur-books-close-up-159866.jpg");
+    background-position: center top;
+}
+
+.jumbotron-lists, 
+.jumbotron-saves {
+    height: 45vh;
+}
+.jumbotron-saves {
+    background-image: url("../images/blur-book-stack-books-810050.jpg");
+    background-position: center;
+}
+
+.jumbotron {
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.position-bottom {
+    position:absolute;
+    bottom: 0;
+    left: 50%; 
+    transform: translate(-50%, -50%)
+}
+
+.shadow {
+    background-color:rgba(192,192,192,0.5);
+    width: 100vw;
+}
+
+.list-item {
+    border-bottom: 2px solid #9D6381;
+    padding: 2%;
+}
+
+footer {
+    margin-top: 3%;
+    background-color: #9D6381;
+    color: #FDECEF;
+}
+
+footer a {
+    color: #CECCCC;
 }

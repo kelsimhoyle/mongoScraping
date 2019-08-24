@@ -1,2 +1,29 @@
-<h3>View Lists</h3>
-<h3>View Saved Books</h3>
+<div class="jumbotron jumbotron-fluid jumbotron-home">
+    <div class="container">
+        <div class="row justify-content-center">
+            <h1>Good Reads Popular Lists Scraper</h1>
+            <p>Explore the popular book lists on Good Reads and hundreds of books to choose from!</p>
+        </div>
+        <div class="position-bottom row align-items-center shadow">
+            <div class="col-md-4 col-sm-12">
+                <h3><a class="nav-link text-center" href="/" id="scrape">Scrape Data</a></h3>
+            </div>
+            <div class="col-md-4 col-sm-12">
+                <h3><a class="nav-link text-center" href="/viewlists">View Lists</a></h3>
+            </div>
+            <div class="col-md-4 col-sm-12">
+                <h3><a class="nav-link text-center" href="/savedbooks">View Saved</a></h3>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <h2 class="text-center pt-2">Book Lists</h2>
+    {{> lists}}
+    <div class="row justify-content-center">
+        <a href="/viewlists">
+            <button type="button" class="btn btn-primary btn-lg">View More Lists</button>
+        </a>
+    </div>
+</div>

@@ -1,8 +1,21 @@
-<ul>
-{{#each saved}}
-    <li>
-        <h3>{{book.title}}</h3>
-        <p>{{notes}}</p>
-    </li>
-{{/each}}
-</ul>
+<div class="jumbotron jumbotron-fluid jumbotron-saves">
+    <div class="container">
+            <h1 class="display-4 pt-4">Saved</h1>
+    </div>
+</div>
+
+<div class="container min-height">
+    {{#if saved}}
+    <ul>
+        {{#each saved}}
+        <li>
+            <h3>{{book.title}}</h3>
+            <p>{{notes}}</p>
+        </li>
+        {{/each}}
+    </ul>
+    {{else}}
+    <h3>Let's add some books!</h3>
+    <a href="/viewlists">Explore the lists!</a>
+    {{/if}}
+</div>

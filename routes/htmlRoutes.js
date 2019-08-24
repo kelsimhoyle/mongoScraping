@@ -2,14 +2,32 @@
 var db = require("../models");
 module.exports = function(app) {
     app.get("/", function(req, res) {
-        res.render("index")
+        db.List.find({}).limit(parseInt(3))
+        .populate({
+            path: "bookList",
+            options: { limit: 3 }
+        })
+        .then(function(dbList) {
+            res.render("index", {layout: "homepage", listItems: dbList });
+        })
+        .catch(function(err) {
+            res.json(err);
+        })
+        
     })
 
     app.get("/viewlists", function(req, res) {
         db.List.find({})
+        .populate({
+            path: "bookList",
+            options: { limit: 3 }
+        })
         .then(function(dbList) {
             console.log(dbList)
             res.render("listpage", {listItems: dbList});
+        })
+        .catch(function(err) {
+            console.log(err);
         })
     })
 

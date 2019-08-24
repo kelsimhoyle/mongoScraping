@@ -1,7 +1,31 @@
-<ul>
-{{#each listItems}}
-<li>
-    <a href="/booklists/{{_id}}">{{listName}}</a>
-</li>
-{{/each}}
-</ul>
+<div class="jumbotron jumbotron-fluid jumbotron-lists">
+    <div class="container">
+            <h1 class="display-4 text-center pt-4">Book Lists</h1>
+    </div>
+</div>
+<div class="container">
+    {{#each listItems}}
+    <div class="list-item">
+        <div class="row justify-content-center">
+            <h3><a href="/booklists/{{_id}}">{{listName}}</a></h3>
+        </div>
+        <div class="row">
+            {{#each bookList}}
+            <div class="col-md-4 col-sm-12 justify-content-center">
+                <h5 class=" text-center">
+                    <a href="{{bookLink}}" target="_blank">
+                        {{title}}
+                    </a>
+                </h5>
+                <p class="text-center"> by <a href="{{authorLink}}" target="_blank">{{author}}</p></a>
+            </div>
+            {{/each}}
+        </div>
+
+        <div class="row justify-content-center">
+            <h4><a href="/booklists/{{_id}}" class="align-text-center">Explore the whole list.</a></h4>
+        </div>
+    </div>
+    {{/each}}
+
+</div>

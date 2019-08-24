@@ -1,0 +1,18 @@
+<div class="row">
+    {{#each listItems}}
+    <div class="col-md-4 col-sm-12">
+            <h4>{{listName}}</h4>
+                <ol>
+        {{#each bookList}}
+            <li>
+                <a href="{{bookLink}}" target="_blank">
+                    <h7>{{title}}</h7>
+                </a>
+                <p> by <a href="{{authorLink}}" target="_blank">{{author}}</p></a>
+            </li>
+        {{/each}}
+        </ol>
+        <a href="/booklists/{{_id}}">View the whole list.</a>
+    </div>
+    {{/each}}
+</div>

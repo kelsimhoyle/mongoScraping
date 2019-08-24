@@ -40,5 +40,5 @@ $("#save").on("click", function() {
             book: bookId
         }
     })
-    
+    location.reload();
 })
