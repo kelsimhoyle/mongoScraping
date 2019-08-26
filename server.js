@@ -29,6 +29,6 @@ app.set("view engine", "handlebars");
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/goodreadsScraper", {useNewUrlParser: true });
 
 // Listen on port 3000
-app.listen(3000, function () {
+app.listen(process.env.PORT || 3000, function () {
   console.log("App running on port 3000!");
 });
