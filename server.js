@@ -26,9 +26,7 @@ app.engine(
 );
 app.set("view engine", "handlebars");
 
-// Hook mongojs configuration to the db variable
-mongoose.connect("mongodb://localhost/goodreadsScraper", { useNewUrlParser: true });
-
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/goodreadsScraper", {useNewUrlParser: true });
 
 // Listen on port 3000
 app.listen(3000, function () {
