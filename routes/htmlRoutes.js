@@ -2,20 +2,21 @@
 var db = require("../models");
 module.exports = function(app) {
     app.get("/", function(req, res) {
-        db.List.find({}).limit(parseInt(3))
-        .populate({
-            path: "bookList",
-            options: { limit: 3 }
-        })
-        .then(function(dbList) {
-            if (dbList) {
-                return res.render("index", {layout: "homepage", listItems: dbList });
-            }
-            res.render("index");
-        })
-        .catch(function(err) {
-            res.json(err);
-        })
+        // db.List.find({}).limit(parseInt(3))
+        // .populate({
+        //     path: "bookList",
+        //     options: { limit: 3 }
+        // })
+        // .then(function(dbList) {
+        //     if (dbList) {
+        //         return res.render("index", {layout: "homepage", listItems: dbList });
+        //     }
+        //     res.render("index");
+        // })
+        // .catch(function(err) {
+        //     res.json(err);
+        // })
+        res.render("index")
     })
 
     app.get("/viewlists", function(req, res) {
