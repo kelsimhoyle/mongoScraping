@@ -98,8 +98,9 @@ module.exports = function (app) {
     // Get a specific book
     app.get("/api/book/:id", function (req, res) {
         db.BookList.findOne({ _id: req.params.id })
-            .populate("savedBook")
+            .populate("saved")
             .then(function (dbBook) {
+                console.log(dbBook);
                 res.json(dbBook)
             })
             .catch(function (err) {
@@ -122,7 +123,7 @@ module.exports = function (app) {
         db.Saves.create(req.body)
             .then(function (dbSavedBook) {
                 console.log(dbSavedBook)
-                return db.BookList.findOneAndUpdate({ _id: req.params.id }, { savedBook: dbSavedBook._id }, { new: true })
+                return db.BookList.findOneAndUpdate({ _id: req.params.id }, { saved: dbSavedBook._id }, { new: true })
                     .then(function (dbBookList) {
                         res.json(dbBookList);
                     })
@@ -144,5 +145,43 @@ module.exports = function (app) {
             .catch(function (req, res) {
                 res.json(err);
             })
+    })
+
+    app.get("/api/savedbook/:id", function(req, res) {
+        db.Saves.find({_id: req.params.id})
+        .populate("book")
+        .then(function(dbSaves) {
+            console.log(dbSaves)
+            res.json(dbSaves)
+        })
+        .catch(function(err) {
+            res.json(err)
+        })
+    })
+
+    app.delete("/api/deletebook/:id", function(req, res) {
+        console.log("deleting")
+        db.Saves.deleteOne({_id: req.params.id})
+        .then(function(dbSaves) {
+            console.log("deleted")
+            res.json(dbSaves)
+        })
+        .catch(function(err) {
+            res.json(err)
+        })
+    })
+
+    app.post("/api/savedbook/note/update/:id", function(req, res) {
+        db.Saves.findByIdAndUpdate({_id: req.params.id}, {notes: req.body.notes})
+        .then(function(dbSaves) {
+            res.json(dbSaves)
+        })
+        .catch(function(err) {
+            res.json(err);
+        })
+    })
+
+    app.post("/api/savedbook/note/delete/:id", function(req, res) {
+        db.Saves.findByIdAndUpdate({_id: req.params.id}, {notes: ""})
     })
 }

@@ -1,6 +1,6 @@
 <div class="jumbotron jumbotron-fluid jumbotron-saves">
     <div class="container">
-            <h1 class="display-4 pt-4">Saved</h1>
+        <h1 class="display-4 pt-4">Saved</h1>
     </div>
 </div>
 
@@ -9,13 +9,75 @@
     <ul>
         {{#each saved}}
         <li>
-            <h3>{{book.title}}</h3>
-            <p>{{notes}}</p>
-        </li>
-        {{/each}}
-    </ul>
-    {{else}}
-    <h3>Let's add some books!</h3>
-    <a href="/viewlists">Explore the lists!</a>
-    {{/if}}
+            <h4><a href="{{book.bookLink}}" target="_blank">{{book.title}}</a><button type="button" class="delete-book" data-id="{{_id}}" aria-label="Close">
+  <span aria-hidden="true">&times;</span>
+</button></h4>
+            <p>by <a href="{{book.authorLink}}" target="_blank">{{book.author}}</a></p>
+            <h5>Notes:</h5>
+            {{#if notes}}
+            <div class="row">
+                <div class="col-md-8">
+                    <p class="note">{{notes}}</p>
+                </div>
+            </div>
+            <div class="row">
+
+                <button type="button" class="btn btn-secondary edit-note" data-id="{{_id}}"data-toggle="modal"
+                    data-target="#notes-modal">Edit Note</button>
+                <button type="button" class="btn btn-danger delete-note" data-id="{{_id}}">Delete Note</button>
+            </div>
+            <div class="modal fade" id="notes-modal" tabindex="-1" role="dialog" aria-labelledby="notes-modal"
+                aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Edit Note for <span id="book-title"></span></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <textarea class="form-control" id="notes" name="notes" rows="3"></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" id="update">Save changes</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{else}}
+            <button type="button" class="btn btn-primary save-book" data-toggle="modal" data-target="#save-display"
+                data-id="{{book._id}}">
+                Create a Note
+            </button>
+</div>
+<div class="modal fade" id="save-display" tabindex="-1" role="dialog" aria-labelledby="save" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Save <span id="book-title"></span></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <label for="notes">Notes:</label>
+                <textarea class="form-control" id="notes" name="notes" rows="3"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="save">Save Book</button>
+            </div>
+        </div>
+    </div>
+</div>
+{{/if}}
+</li>
+{{/each}}
+</ul>
+{{else}}
+<h3>Let's add some books!</h3>
+<a href="/viewlists">Explore the lists!</a>
+{{/if}}
 </div>
