@@ -8,13 +8,12 @@ var mongoose = require("mongoose");
 module.exports = function (app) {
     // Scraping the Popular Lists
 
-    app.get("/scrape/list", (req, res) => {
-        mongoose.connection.db.dropDatabase(function(err, result) {
+    app.get("/api/scrape", (req, res) => {
+        mongoose.connection.db.dropDatabase(function (err, result) {
             if (err) console.log(err);
 
             console.log(result);
         })
-
 
         axios.get("https://www.goodreads.com/list/popular_lists").then(function (response) {
             var $ = cheerio.load(response.data);
@@ -48,12 +47,13 @@ module.exports = function (app) {
                                         return db.List.updateOne({ _id: dbList._id }, { $push: { bookList: dbBookList._id } });
                                     })
                                     .then(function (dbList) {
-                                        console.log(dbList)
+                                        console.log(dbList);
                                     })
                                     .catch(function (err) {
                                         console.log(err);
                                     });
                             });
+                            res.send("scrape complete. View at: '/api/lists'")
                         });
                     })
                     .catch(function (err) {
@@ -61,7 +61,14 @@ module.exports = function (app) {
                     });
             });
         });
-        res.send("scrape complete")
+    })
+
+    app.get("/api/clear", function (req, res) {
+        mongoose.connection.db.dropDatabase(function (err, result) {
+            if (err) console.log(err);
+
+            console.log(result);
+        })
     })
 
     app.get("/api/lists", function (req, res) {
@@ -69,23 +76,23 @@ module.exports = function (app) {
             .then(function (dbList) {
                 res.json(dbList);
             })
-            .catch(function(err) {
+            .catch(function (err) {
                 res.json(err);
             })
     });
 
     app.get("/api/lists/:num", function (req, res) {
         db.List.find({}).limit(parseInt(req.params.num))
-        .populate({
-            path: "bookList",
-            options: { limit: 3 }
-        })
-        .then(function(dbList) {
-            res.json(dbList);
-        })
-        .catch(function(err) {
-            res.json(err);
-        })
+            .populate({
+                path: "bookList",
+                options: { limit: 3 }
+            })
+            .then(function (dbList) {
+                res.json(dbList);
+            })
+            .catch(function (err) {
+                res.json(err);
+            })
     })
 
     // Get a specific book

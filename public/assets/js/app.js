@@ -42,3 +42,13 @@ $("#save").on("click", function() {
     })
     location.reload();
 })
+
+$(".scrape").on("click", function(req, res) {
+    $.ajax({
+        method: "GET",
+        url: "/api/scrape"
+    })
+    .then(function(response) {
+        location.reload();
+    })
+})
