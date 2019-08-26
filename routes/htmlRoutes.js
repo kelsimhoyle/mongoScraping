@@ -38,6 +38,9 @@ module.exports = function(app) {
             console.log(dbList[0].bookList)
             res.render("bookslist", {title: dbList[0].listName, books: dbList[0].bookList})
         })
+        .catch(function(err) {
+            console.log(err);
+        })
     })
 
     app.get("/savedbooks", function(req, res) {

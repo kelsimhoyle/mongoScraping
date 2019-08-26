@@ -69,6 +69,9 @@ module.exports = function (app) {
             .then(function (dbList) {
                 res.json(dbList);
             })
+            .catch(function(err) {
+                res.json(err);
+            })
     });
 
     app.get("/api/lists/:num", function (req, res) {
