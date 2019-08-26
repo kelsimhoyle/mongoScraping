@@ -8,12 +8,14 @@ module.exports = function(app) {
             options: { limit: 3 }
         })
         .then(function(dbList) {
-            res.render("index", {layout: "homepage", listItems: dbList });
+            if (dbList) {
+                return res.render("index", {layout: "homepage", listItems: dbList });
+            }
+            res.render("index");
         })
         .catch(function(err) {
             res.json(err);
         })
-        
     })
 
     app.get("/viewlists", function(req, res) {
